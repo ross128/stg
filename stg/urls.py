@@ -4,13 +4,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'stg.views.home', name='home'),
-    # url(r'^stg/', include('stg.foo.urls')),
+	url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
+	url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'},  name='logout'),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # admin interface
-	 url(r'^admin/', include(admin.site.urls)),
+	# admin interface
+	url(r'^admin/', include(admin.site.urls)),
 )

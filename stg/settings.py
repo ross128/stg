@@ -68,6 +68,7 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/main/'
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -114,6 +115,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	 'django.contrib.admin',
+	 'index',
+	 'mainscreen',
 )
 
 # A sample logging configuration. The only tangible logging

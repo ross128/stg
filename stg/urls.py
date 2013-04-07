@@ -18,5 +18,5 @@ urlpatterns = patterns('',
 	#colony
 	url(r'^colony/', include('colony.urls')),
 
-	url(r'', include('index.urls')),
+	url(r'^$', include('index.urls')),
 )

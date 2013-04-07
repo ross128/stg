@@ -1,9 +1,16 @@
 {% extends "game.html" %}
 
 {% block pagetitle %}
-Colony Detail
+Colony Detail:
+	{% if colony %}
+		{{ colony.name }}
+	{% else %}
+		No colony found!
+	{% endif %}
 {% endblock %}
 
 {% block content %}
-detail
+	{% if colony %}
+		Detail: {{ colony }}
+	{% endif %}
 {% endblock %}

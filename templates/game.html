@@ -1,11 +1,55 @@
 {% extends "base.html" %}
 
+{% block head %}
+<style type="text/css">
+	body {
+		background-color: #cccccc;
+	}
+	#navigation {
+		position: fixed;
+		left: 0em;
+		top: 0em;
+		width: 10em;
+		padding: 0;
+		margin: 0;
+		background-color: #567ebb;
+		height: 100%;
+	}
+	#navigation ul {
+		margin: 0;
+		padding: 0;
+	}
+	#navigation ul li {
+		list-style: none;
+		margin-bottom: 1px;
+	}
+	#navigation ul li a {
+		display: block;
+		width: 9em;
+		text-decoration: none;
+		color: #dce0e6;
+		padding: 0.5em 0em 0.5em 1em;
+	}
+	#navigation ul li a:hover {
+		background-color: #dce0e6;
+		color: #000000;
+	}
+	#content {
+		position: absolute;
+		top: 0em;
+		left: 10em;
+		margin-left: 1em;
+		padding: 0;
+		right: 0;
+	}
+</style>
+{% endblock %}
+
 {% block body %}
 <div id="navigation">
 	{% block navigation %}
 	<ul>
 		<li><a href="{% url mainscreen %}">Mainscreen</a></li>
-		<li><a href="{% url colonylist %}">Colonylist</a></li>
 		<li><a href="{% url admin:index %}">Admin</a></li>
 		<li><a href="{% url logout %}">Logout</a></li>
 	</ul>

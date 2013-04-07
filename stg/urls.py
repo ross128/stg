@@ -15,5 +15,8 @@ urlpatterns = patterns('',
 	#mainscreen
 	url(r'^main', include('mainscreen.urls')),
 
+	#colony
+	url(r'^colony', include('colony.urls')),
+
 	url(r'', include('index.urls')),
 )

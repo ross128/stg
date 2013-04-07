@@ -117,6 +117,7 @@ INSTALLED_APPS = (
 	 'django.contrib.admin',
 	 'index',
 	 'mainscreen',
+	 'colony',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 
 {% block body %}
-game page
+<div id="navigation">
+	{% block navigation %}
+	<ul>
+		<li><a href="{% url mainscreen %}">Mainscreen</a></li>
+		<li><a href="{% url colonylist %}">Colonylist</a></li>
+		<li><a href="{% url admin:index %}">Admin</a></li>
+		<li><a href="{% url logout %}">Logout</a></li>
+	</ul>
+	{% endblock %}
+</div>
+<div id="content">
+	<h1>{% block pagetitle %}{% endblock %}</h1>
+	{% block content %}
+	{% endblock %}
+</div>
 {% endblock %}

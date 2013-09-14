@@ -1,4 +1,5 @@
 {% extends "game.html" %}
+{% load staticfiles %}
 
 {% block pagetitle %}
 Colony Detail:
@@ -11,6 +12,11 @@ Colony Detail:
 
 {% block content %}
 	{% if colony %}
-		Detail: {{ colony }}
+	Detail: {{ colony }}
+	<ul>
+	{% for field in colony.fields.all %}
+	<li><img src="{% static "colony/fields/" %}{{ field.id }}.gif" alt="{{ field.name }}" title="{{ field.name }}"/></li>
+	{% endfor %}
+	</ul>
 	{% endif %}
 {% endblock %}

@@ -12,10 +12,9 @@ Colony Detail:
 
 {% block content %}
 	{% if colony %}
-	Detail: {{ colony }}
 	<ul>
-	{% for field in colony.fields.all %}
-	<li><img src="{% static "colony/fields/" %}{{ field.id }}.gif" alt="{{ field.name }}" title="{{ field.name }}"/></li>
+	{% for field in colony.fieldassignment_set.all %}
+	<li><img src="{% static "colony/fields/" %}{{ field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }},{{ field.x }})"/></li>
 	{% endfor %}
 	</ul>
 	{% endif %}

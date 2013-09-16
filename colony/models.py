@@ -23,9 +23,30 @@ class Colony(models.Model):
 class FieldAssignment(models.Model):
 	colony = models.ForeignKey(Colony)
 	field = models.ForeignKey(Field)
-	# building = models.ForeignKey(Building)
+	x = models.PositiveSmallIntegerField()
+	y = models.PositiveSmallIntegerField()
+
+	class Meta:
+		unique_together = (('colony', 'x', 'y'),)
+		ordering = ['y','x']
 
 	def __unicode__(self):
 		"""prints description"""
-		return "%s has %s" % (self.colony.name,self.field.name)
+		return "%s has %s at (%d,%d)" % (self.colony.name,self.field.name,self.x,self.y)
 
+class Building(models.Model):
+	"""building"""
+	name = models.CharField(max_length = 200)
+
+	def __unicode__(self):
+		"""prints description"""
+		return self.name
+
+class BuildingAssignment(models.Model):
+	"""assigns a building to a field on a colony"""
+	field = models.ForeignKey(FieldAssignment)
+	building = models.ForeignKey(Building)
+
+	def __unicode__(self):
+		"""prints description"""
+		return "Building %s on field %s" % (self.building.name,self.field.name)

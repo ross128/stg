@@ -17,4 +17,24 @@ def colony(request,colony_id):
 		colony = Colony.objects.get(pk=colony_id,owner=request.user)
 	except ObjectDoesNotExist:
 		colony = None
-	return render(request,'colony/colony.html', {'colony': colony})
+
+	#extract maximum fieldsizes
+	fieldsize = reduce(
+			lambda a,b: {'x': max(a['x'],b['x']), 'y': max(a['y'],b['y'])} ,
+			( {'x': field.x, 'y': field.y} for field in colony.fieldassignment_set.all() ),
+			{'x': 0, 'y': 0}
+		)
+
+	fields = {}
+	for y in xrange(fieldsize['y'] + 1):
+		fields[y] = {}
+		for x in xrange(fieldsize['x'] + 1):
+			fields[y][x] = None
+
+	for field in colony.fieldassignment_set.all():
+		fields[field.y][field.x] = field
+
+	return render(request,'colony/colony.html', {
+		'colony': colony,
+		'fields': fields,
+	})

@@ -12,10 +12,18 @@ Colony Detail:
 
 {% block content %}
 	{% if colony %}
-	<ul>
-	{% for field in colony.fieldassignment_set.all %}
-	<li><img src="{% static "colony/fields/" %}{{ field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }},{{ field.x }})"/></li>
+	<table>
+		{% for row_id,row in fields.iteritems %}
+		<tr>
+		{% for col_id,field in row.iteritems %}
+			<td>
+				{% if field %}
+				<img src="{% static "colony/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }},{{ field.x }})"/></li>
+				{% endif %}
+			</td>
+		{% endfor %}
+		</tr>
 	{% endfor %}
-	</ul>
+	</table>
 	{% endif %}
 {% endblock %}

@@ -37,10 +37,20 @@ class FieldAssignment(models.Model):
 class Building(models.Model):
 	"""building"""
 	name = models.CharField(max_length = 200)
+	usable_fields = models.ManyToManyField(Field, through='BuildingConstruction')
 
 	def __unicode__(self):
 		"""prints description"""
 		return self.name
+
+class BuildingConstruction(models.Model):
+	"""describes which building can be built on which field"""
+	building = models.ForeignKey(Building)
+	field = models.ForeignKey(Field)
+
+	def __unicode__(self):
+		"""prints description"""
+		return "Building %s can be built on field %s" % (self.building.name, self.field.name)
 
 class BuildingAssignment(models.Model):
 	"""assigns a building to a field on a colony"""

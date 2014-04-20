@@ -19,22 +19,22 @@ def colony(request,colony_id):
 		colony = None
 
 	#extract maximum fieldsizes
-	fieldsize = reduce(
+	surfacesize = reduce(
 			lambda a,b: {'x': max(a['x'],b['x']), 'y': max(a['y'],b['y'])} ,
 			( {'x': field.x, 'y': field.y} for field in colony.fieldassignment_set.all() ),
 			{'x': 0, 'y': 0}
 		)
 
-	fields = {}
-	for y in xrange(fieldsize['y'] + 1):
-		fields[y] = {}
-		for x in xrange(fieldsize['x'] + 1):
-			fields[y][x] = None
+	surface = {}
+	for y in xrange(surfacesize['y'] + 1):
+		surface[y] = {}
+		for x in xrange(surfacesize['x'] + 1):
+			surface[y][x] = {}
 
 	for field in colony.fieldassignment_set.all():
-		fields[field.y][field.x] = field
+		surface[field.y][field.x]['field'] = field
 
 	return render(request,'colony/colony.html', {
 		'colony': colony,
-		'fields': fields,
+		'surface': surface,
 	})

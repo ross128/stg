@@ -13,12 +13,12 @@ Colony Detail:
 {% block content %}
 	{% if colony %}
 	<table>
-		{% for row_id,row in fields.iteritems %}
+		{% for row_id,row in surface.iteritems %}
 		<tr>
-		{% for col_id,field in row.iteritems %}
+		{% for col_id,cell in row.iteritems %}
 			<td>
-				{% if field %}
-				<img src="{% static "colony/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }},{{ field.x }})"/></li>
+				{% if cell.field %}
+				<img src="{% static "colony/fields/" %}{{ cell.field.field.id }}.gif" alt="{{ cell.field.field.name }}" title="{{ cell.field.field.name }} at ({{ cell.field.y }},{{ cell.field.x }})"/>
 				{% endif %}
 			</td>
 		{% endfor %}

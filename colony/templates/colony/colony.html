@@ -18,7 +18,9 @@ Colony Detail:
 		{% for col_id,cell in row.iteritems %}
 			<td>
 				{% if cell.field %}
-				<img src="{% static "colony/fields/" %}{{ cell.field.field.id }}.gif" alt="{{ cell.field.field.name }}" title="{{ cell.field.field.name }} at ({{ cell.field.y }},{{ cell.field.x }})"/>
+				<a href="{% url 'fielddetail' colony.id cell.field.x cell.field.y %}">
+					<img src="{% static "colony/fields/" %}{{ cell.field.field.id }}.gif" alt="{{ cell.field.field.name }}" title="{{ cell.field.field.name }} at ({{ cell.field.y }},{{ cell.field.x }})"/>
+				</a>
 				{% endif %}
 			</td>
 		{% endfor %}

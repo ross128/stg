@@ -1,0 +1,10 @@
+{% extends "game.html" %}
+{% load staticfiles %}
+
+{% block pagetitle %}
+Colony Field Detail: {{ field.field.name }}
+{% endblock %}
+
+{% block content %}
+	<img src="{% static "colony/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }}, {{ field.x }})"/>
+{% endblock %}

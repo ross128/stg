@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import timedelta
 
 class Field(models.Model):
 	name = models.CharField(max_length=100)
@@ -38,6 +39,7 @@ class Building(models.Model):
 	"""building"""
 	name = models.CharField(max_length = 200)
 	usable_fields = models.ManyToManyField(Field, through='BuildingConstruction')
+	build_time = timedelta.TimedeltaField()
 
 	def __unicode__(self):
 		"""prints description"""

@@ -7,4 +7,13 @@ Colony Field Detail: {{ field.field.name }}
 
 {% block content %}
 	<img src="{% static "colony/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }}, {{ field.x }})"/>
+	<ul>
+		{% for building in buildings %}
+		<li>
+			<a href="#">{{ building.building.name }} ({{ building.building.build_time }})</a>
+		</li>
+		{% empty %}
+		No buildings here!
+		{% endfor %}
+	</ul>
 {% endblock %}

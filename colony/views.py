@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-from colony.models import Colony
+from colony.models import Colony, Building
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required
@@ -45,6 +45,10 @@ def fielddetail(request, colony_id, x, y):
 	colony = get_object_or_404(Colony, pk=colony_id, owner=request.user)
 	field = colony.fieldassignment_set.filter(x=int(x), y=int(y)).first()
 
+	#retrieve building options
+	buildings = field.field.buildingconstruction_set.all()
+
 	return render(request,'colony/fielddetail.html', {
 		'field': field,
+		'buildings': buildings,
 	})

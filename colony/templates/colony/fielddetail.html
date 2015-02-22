@@ -1,19 +1,31 @@
 {% extends "game.html" %}
 {% load staticfiles %}
 
+{% block head %}
+{{ block.super }}
+<link href="{% static "colony/css/colony.css" %}" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
 {% block pagetitle %}
 Colony Field Detail: {{ field.field.name }}
 {% endblock %}
 
 {% block content %}
-	<img src="{% static "colony/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }}, {{ field.x }})"/>
-	<ul>
+	<img src="{% static "colony/img/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }}, {{ field.x }})"/>
+	{% if buildings %}
+		<div class="tiling">
 		{% for building in buildings %}
-		<li>
-			<a href="#">{{ building.building.name }} ({{ building.building.build_time }})</a>
-		</li>
-		{% empty %}
-		No buildings here!
+		<div>
+			<a href="#">
+				<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" />
+				{{ building.building.name }} ({{ building.building.build_time }})</a>
+		</div>
 		{% endfor %}
+		</div>
+	{% else %}
+		No buildings here!
+	{% endif %}
+
+	<ul>
 	</ul>
 {% endblock %}

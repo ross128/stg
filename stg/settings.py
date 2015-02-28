@@ -23,6 +23,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'index',
 	'mainscreen',
+	'colony',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,0 +1,31 @@
+{% extends "game.html" %}
+{% load staticfiles %}
+
+{% block pagetitle %}
+Colony Detail:
+	{% if colony %}
+		{{ colony.name }}
+	{% else %}
+		No colony found!
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if colony %}
+	<table>
+		{% for row_id,row in surface.iteritems %}
+		<tr>
+		{% for col_id,cell in row.iteritems %}
+			<td>
+				{% if cell.field %}
+				<a href="{% url 'fielddetail' colony.id cell.field.x cell.field.y %}">
+					<img src="{% static "colony/img/fields/" %}{{ cell.field.field.id }}.gif" alt="{{ cell.field.field.name }}" title="{{ cell.field.field.name }} at ({{ cell.field.y }},{{ cell.field.x }})"/>
+				</a>
+				{% endif %}
+			</td>
+		{% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+	{% endif %}
+{% endblock %}

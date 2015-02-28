@@ -1,0 +1,18 @@
+.tiling {
+	clear: both;
+}
+.tiling > a {
+	border: 1px solid #567ebb;
+	display: block;
+	float: left;
+	margin: 0.5em;
+	border-radius: 4px;
+	display: block;
+	padding: 0.2em;
+	height: 5em;
+	width: 15em;
+}
+.tiling > a:hover {
+	background-color: #567ebb;
+	color: #dce0e6;
+}

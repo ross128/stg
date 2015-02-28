@@ -16,9 +16,12 @@ urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
 
 	#mainscreen
-	url(r'^main', include('mainscreen.urls')),
+	url(r'^main/', include('mainscreen.urls')),
 
-	url(r'', include('index.urls')),
+	#colony
+	url(r'^colony/', include('colony.urls')),
+
+	url(r'^$', include('index.urls')),
 )
 
 # serve static files

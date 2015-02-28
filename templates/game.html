@@ -42,6 +42,21 @@
 		padding: 0;
 		right: 0;
 	}
+	table {
+		background-color: #afafaf;
+		border-collapse: collapse;
+	}
+	table tr {
+	}
+	table tr td {
+		margin: 0em;
+		padding: 0.5px;
+	}
+	table tr td img {
+	}
+	a {
+		display: block;
+	}
 </style>
 {% endblock %}
 
@@ -50,6 +65,7 @@
 	{% block navigation %}
 	<ul>
 		<li><a href="{% url "mainscreen" %}">Mainscreen</a></li>
+		<li><a href="{% url "colonylist" %}">Colony</a></li>
 		{% if user.is_staff %}
 		<li><a href="{% url "admin:index" %}">Admin</a></li>
 		{% endif %}

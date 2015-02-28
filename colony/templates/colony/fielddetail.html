@@ -15,11 +15,10 @@ Colony Field Detail: {{ field.field.name }}
 	{% if buildings %}
 		<div class="tiling">
 		{% for building in buildings %}
-		<div>
 			<a href="#">
 				<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" />
-				{{ building.building.name }} ({{ building.building.build_time }})</a>
-		</div>
+				{{ building.building.name }} ({{ building.building.build_time }})
+			</a>
 		{% endfor %}
 		</div>
 	{% else %}

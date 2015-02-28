@@ -1,12 +1,12 @@
 # Django settings for stg project.
 
-import os.path
+import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SITE_ID = 1
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'sh&amp;k@)5ryk^94j5!p**hnp+72*xcg*5xf#rcw4wl9tr6@ew)ro'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

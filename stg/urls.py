@@ -19,6 +19,9 @@ urlpatterns = patterns('',
 	#colony
 	url(r'^colony/', include('colony.urls')),
 
+	#ships
+	url(r'^ships/', include('ships.urls', namespace='ships')),
+
 	#index page
 	url(r'^$', include('index.urls')),
 )

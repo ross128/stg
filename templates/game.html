@@ -66,6 +66,7 @@
 	<ul>
 		<li><a href="{% url "mainscreen" %}">Mainscreen</a></li>
 		<li><a href="{% url "colonylist" %}">Colony</a></li>
+		<li><a href="{% url "ships:list" %}">Ships</a></li>
 		{% if user.is_staff %}
 		<li><a href="{% url "admin:index" %}">Admin</a></li>
 		{% endif %}

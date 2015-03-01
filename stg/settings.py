@@ -24,6 +24,7 @@ INSTALLED_APPS = (
 	'index',
 	'mainscreen',
 	'colony',
+	'ships',
 )
 
 MIDDLEWARE_CLASSES = (

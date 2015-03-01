@@ -1,0 +1,14 @@
+{% extends "game.html" %}
+{% load staticfiles %}
+
+{% block pagetitle %}Ship List{% endblock %}
+
+{% block content %}
+<ul>
+	{% for ship in ship_list %}
+	<li><a href="{% url 'ships:detail' ship.id %}"><img src="{% static "ships/img/" %}{{ ship.shipclass.id }}.gif" /> {{ ship.name }} ({{ ship.shipclass.name }})</a></li>
+	{% empty %}
+	<li>No ship found!</li>
+	{% endfor %}
+</ul>
+{% endblock %}

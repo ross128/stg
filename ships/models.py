@@ -12,6 +12,10 @@ class Ship(models.Model):
 	owner = models.ForeignKey(User)
 	shipclass = models.ForeignKey(ShipClass)
 
+	# position
+	x = models.IntegerField()
+	y = models.IntegerField()
+
 	def __unicode__(self):
 		return "Ship: %s (%s class)" % (self.name, self.shipclass.name)
 

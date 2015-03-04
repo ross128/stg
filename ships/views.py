@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ships.models import *
+from map.util import get_map
 
 @login_required
 def shiplist(request):
@@ -11,5 +12,9 @@ def shiplist(request):
 @login_required
 def ship(request, ship_id):
 	ship = get_object_or_404(Ship, pk=ship_id)
-	return render(request, 'ships/ship.html', {'ship': ship})
+	local_map = get_map( (ship.x, ship.y), 5)
+	return render(request, 'ships/ship.html', {
+		'ship': ship,
+		'local_map': local_map
+	})
 

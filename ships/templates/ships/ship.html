@@ -1,8 +1,28 @@
 {% extends "game.html" %}
 {% load staticfiles %}
+{% load dict_first %}
 
 {% block pagetitle %}Ship Detail:{% endblock %}
 
 {% block content %}
-<img src="{% static "ships/img/" %}{{ ship.shipclass.id }}.gif" alt="{{ ship }}" title="{{ ship }}" /> {{ ship.name }}
+<img src="{% static "ships/img/" %}{{ ship.shipclass.id }}.gif" alt="{{ ship }}" title="{{ ship }}" /> {{ ship.name }} at {{ ship.x }}/{{ ship.y }}
+
+<table>
+	<tr>
+		<th></th>
+		{% with local_map|iter_first as row %}
+			{% for x,field in row.iteritems %}
+			<th>{{ x }}</th>
+			{% endfor %}
+		{% endwith %}
+	</tr>
+	{% for y,row in local_map.iteritems %}
+	<tr>
+		<th>{{ y }}</th>
+		{% for x,field in row.iteritems %}
+		<td><img src="{% static "map/img/" %}{{ field.fieldtype.id }}.gif" title="{{ field }}" /></td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
 {% endblock %}

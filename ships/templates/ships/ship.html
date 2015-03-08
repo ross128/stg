@@ -25,4 +25,27 @@
 	</tr>
 	{% endfor %}
 </table>
+
+<br />
+
+<form action="{% url "ships:move" ship.id %}" method="post">
+{% csrf_token %}
+<table>
+	<tr>
+		<td></td>
+		<td><input type="submit" name="up" value="up" /></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><input type="submit" name="left" value="left" /></td>
+		<td><input type="text" name="jump" maxlength="2" value="1" style="width: 3em;" /></td>
+		<td><input type="submit" name="right" value="right" /></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" name="down" value="down" /></td>
+		<td></td>
+	</tr>
+</table>
+</form>
 {% endblock %}

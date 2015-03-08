@@ -17,7 +17,7 @@ INSTALLED_APPS = (
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
-	'django.contrib.sites', #XXX missing
+	'django.contrib.sites',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
@@ -33,9 +33,9 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.auth.middleware.SessionAuthenticationMiddleware', #XXX new
+	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware', # XXX beeded?
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'stg.urls'

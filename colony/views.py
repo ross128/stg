@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from colony.models import Colony, Building
-from django.core.exceptions import ObjectDoesNotExist
+from functools import reduce
 
 @login_required
 def colonylist(request):
@@ -13,10 +13,7 @@ def colonylist(request):
 @login_required
 def colony(request, colony_id):
 	"""a detailled view of the colony"""
-	try:
-		colony = Colony.objects.get(pk=colony_id, owner=request.user)
-	except ObjectDoesNotExist:
-		colony = None
+	colony = get_object_or_404(Colony, pk=colony_id, owner=request.user)
 
 	#extract maximum fieldsizes
 	surfacesize = reduce(
@@ -26,9 +23,9 @@ def colony(request, colony_id):
 		)
 
 	surface = {}
-	for y in xrange(surfacesize['y'] + 1):
+	for y in range(surfacesize['y'] + 1):
 		surface[y] = {}
-		for x in xrange(surfacesize['x'] + 1):
+		for x in range(surfacesize['x'] + 1):
 			surface[y][x] = {}
 
 	for field in colony.fieldassignment_set.all():

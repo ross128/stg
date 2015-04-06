@@ -14,7 +14,7 @@ def shiplist(request):
 
 @login_required
 def ship(request, ship_id):
-	ship = get_object_or_404(Ship, pk=ship_id)
+	ship = get_object_or_404(Ship, pk=ship_id, owner=request.user)
 	local_map = get_map( (ship.x, ship.y), 5)
 	return render(request, 'ships/ship.html', {
 		'ship': ship,

@@ -13,9 +13,9 @@ Colony Detail:
 {% block content %}
 	{% if colony %}
 	<table>
-		{% for row_id,row in surface.iteritems %}
+		{% for row_id,row in surface.items %}
 		<tr>
-		{% for col_id,cell in row.iteritems %}
+		{% for col_id,cell in row.items %}
 			<td>
 				{% if cell.field %}
 				<a href="{% url 'fielddetail' colony.id cell.field.x cell.field.y %}">

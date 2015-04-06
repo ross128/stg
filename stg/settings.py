@@ -34,6 +34,7 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.security.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'stg.urls'
@@ -61,13 +62,23 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'static'))
 
 # Template settings
-TEMPLATE_LOADERS = (
-	'django.template.loaders.filesystem.Loader',
-	'django.template.loaders.app_directories.Loader',
-)
-TEMPLATE_DIRS = (
-	os.path.abspath(os.path.join(BASE_DIR, 'templates')),
-)
+TEMPLATES = [
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [
+			os.path.abspath(os.path.join(BASE_DIR, 'templates')),
+		],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+			],
+		},
+	},
+]
 
 # Login settings
 LOGIN_URL = '/login/'

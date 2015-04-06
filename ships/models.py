@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class ShipClass(models.Model):
 	name = models.CharField(max_length=100)
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s class" % self.name
 
 class Ship(models.Model):
@@ -16,6 +16,6 @@ class Ship(models.Model):
 	x = models.IntegerField()
 	y = models.IntegerField()
 
-	def __unicode__(self):
+	def __str__(self):
 		return "Ship: %s (%s class)" % (self.name, self.shipclass.name)
 

@@ -5,7 +5,7 @@ import numpy as np
 
 def generate_map_slice(indices, map_seed=0, slice_size=10):
 	"""generates a map slice of given size randomly"""
-	this_seed = int(hashlib.sha256(str(tuple([map_seed, indices]))).hexdigest(), base=16) % (2**32)
+	this_seed = int(hashlib.sha256(str(tuple([map_seed, indices])).encode('utf-8')).hexdigest(), base=16) % (2**32)
 	np.random.seed(this_seed)
 	data = np.random.uniform(size=(slice_size, slice_size))
 
@@ -23,15 +23,15 @@ def get_map(pos=(0,0), radius=5, method='max'):
 	area = OrderedDict()
 	slices = {}
 
-	for cur_y in xrange(y-radius, y+radius+1):
-		for cur_x in xrange(x-radius, x+radius+1):
+	for cur_y in range(y-radius, y+radius+1):
+		for cur_x in range(x-radius, x+radius+1):
 			cur_pos = np.array([cur_x,cur_y])
 			cur_i = cur_pos // slice_size
 			cur_mod_x, cur_mod_y = cur_pos % slice_size
 
-			if not slices.has_key(tuple(cur_i)):
+			if not tuple(cur_i) in slices:
 				slices[tuple(cur_i)] = generate_map_slice(cur_i, map_seed=map_seed, slice_size=slice_size)
-			if not area.has_key(cur_y):
+			if not cur_y in area:
 				area[cur_y] = OrderedDict()
 
 			# add randomly generated field

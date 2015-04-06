@@ -11,15 +11,15 @@
 	<tr>
 		<th></th>
 		{% with local_map|iter_first as row %}
-			{% for x,field in row.iteritems %}
+			{% for x,field in row.items %}
 			<th>{{ x }}</th>
 			{% endfor %}
 		{% endwith %}
 	</tr>
-	{% for y,row in local_map.iteritems %}
+	{% for y,row in local_map.items %}
 	<tr>
 		<th>{{ y }}</th>
-		{% for x,field in row.iteritems %}
+		{% for x,field in row.items %}
 		<td><img src="{% static "map/img/" %}{{ field.fieldtype.id }}.gif" title="{{ field }}" /></td>
 		{% endfor %}
 	</tr>

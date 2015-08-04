@@ -7,6 +7,16 @@
 {% block content %}
 <img src="{% static "ships/img/" %}{{ ship.shipclass.id }}.gif" alt="{{ ship }}" title="{{ ship }}" /> {{ ship.name }} at {{ ship.x }}/{{ ship.y }}
 
+{% if ship.modules.all %}
+<h2>Modules</h2>
+<ul id="modules">
+	{% for module in ship.moduleassignment_set.all %}
+	<li><img src="{% static "ships/img/modules/" %}{{ module.module.id }}.gif" title="{{ module.module.name }} ({{ module.count }})" alt="{{ module.module.name }} ({{ module.count }})" /></li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+<h2>Map</h2>
 <table>
 	<tr>
 		<th></th>
@@ -26,8 +36,7 @@
 	{% endfor %}
 </table>
 
-<br />
-
+<h2>Navigation</h2>
 <form action="{% url "ships:move" ship.id %}" method="post">
 {% csrf_token %}
 <table>

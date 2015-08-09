@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 class ShipClass(models.Model):
 	name = models.CharField(max_length=100)
 
+	class Meta:
+		verbose_name_plural = 'Ship classes'
+
 	def __str__(self):
 		return "%s class" % self.name
 

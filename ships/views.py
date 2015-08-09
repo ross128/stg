@@ -16,9 +16,22 @@ def shiplist(request):
 def ship(request, ship_id):
 	ship = get_object_or_404(Ship, pk=ship_id, owner=request.user)
 	local_map = get_map( (ship.x, ship.y), 5)
+
+	#get ships in sensor range
+	ships_in_sensor_range_query = Ship.objects.filter(x__range=(ship.x-5, ship.x+5)).filter(y__range=(ship.y-5, ship.y+5))
+	ships_in_sensor_range = {}
+	for other_ship in ships_in_sensor_range_query:
+		if not other_ship.y in ships_in_sensor_range:
+			ships_in_sensor_range[other_ship.y] = {}
+		if not other_ship.x in ships_in_sensor_range[other_ship.y]:
+			ships_in_sensor_range[other_ship.y][other_ship.x] = [other_ship]
+		else:
+			ships_in_sensor_range[other_ship.y][other_ship.x].append(other_ship)
 	return render(request, 'ships/ship.html', {
 		'ship': ship,
-		'local_map': local_map
+		'local_map': local_map,
+		'ships_in_sensor_range': ships_in_sensor_range,
+		'ships_in_sector': ships_in_sensor_range_query.filter(x=ship.x).filter(y=ship.y).exclude(pk=ship.pk),
 	})
 
 @login_required

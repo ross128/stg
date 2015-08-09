@@ -1,11 +1,13 @@
 {% extends "game.html" %}
 {% load staticfiles %}
 {% load dict_first %}
+{% load get_item %}
 
 {% block pagetitle %}Ship Detail:{% endblock %}
 
 {% block content %}
 <img src="{% static "ships/img/" %}{{ ship.shipclass.id }}.gif" alt="{{ ship }}" title="{{ ship }}" /> {{ ship.name }} at {{ ship.x }}/{{ ship.y }}
+
 
 {% if ship.modules.all %}
 <h2>Modules</h2>
@@ -16,8 +18,32 @@
 </ul>
 {% endif %}
 
-<h2>Map</h2>
+<h2>Short range sensors</h2>
 <table>
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Class</th>
+		<th>Owner</th>
+	</tr>
+	{% for srs_ship in ships_in_sensor_range|get_y:ship.y|get_x:ship.x %}
+		{% if srs_ship.id != ship.id %}
+			<tr>
+				<td><img src="{% static "ships/img/" %}{{ srs_ship.shipclass.id }}.gif" alt="{{ srs_ship }}" title="{{ srs_ship }}" /></td>
+				<td>{{ srs_ship.name }}</td>
+				<td>{{ srs_ship.shipclass.name }}</td>
+				<td>{{ srs_ship.owner }}</td>
+			</tr>
+		{% endif %}
+	{% empty %}
+	<tr>
+		<td colspan="4">No ships in sector.</td>
+	</tr>
+	{% endfor %}
+</table>
+
+<h2>Map</h2>
+<table class="map">
 	<tr>
 		<th></th>
 		{% with local_map|iter_first as row %}
@@ -30,7 +56,11 @@
 	<tr>
 		<th>{{ y }}</th>
 		{% for x,field in row.items %}
-		<td><img src="{% static "map/img/" %}{{ field.fieldtype.id }}.gif" title="{{ field }}" /></td>
+		<td style="background-image: url({% static "map/img/" %}{{ field.fieldtype.id }}.gif);" title="{{ field }}">
+			{% if ships_in_sensor_range|get_y:y|get_x:x|length > 0 %}
+				{{ ships_in_sensor_range|get_y:y|get_x:x|length }}
+			{% endif %}
+		</td>
 		{% endfor %}
 	</tr>
 	{% endfor %}

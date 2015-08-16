@@ -10,12 +10,32 @@ class ShipClass(models.Model):
 	def __str__(self):
 		return "%s class" % self.name
 
-class Module(models.Model):
-	"""modules to install into ships"""
+class ShipProperty(models.Model):
+	"""property assignable to modules"""
 	name = models.CharField(max_length=100)
 
 	def __str__(self):
 		return self.name
+
+class Module(models.Model):
+	"""modules to install into ships"""
+	name = models.CharField(max_length=100)
+	module_properties = models.ManyToManyField(ShipProperty, through='ModulePropertyAssignment')
+
+	def __str__(self):
+		return self.name
+
+class ModulePropertyAssignment(models.Model):
+	"""assignment of properties to modules"""
+	module = models.ForeignKey(Module)
+	module_property = models.ForeignKey(ShipProperty)
+	value = models.FloatField()
+
+	class Meta:
+		unique_together = (('module', 'module_property'),)
+
+	def __str__(self):
+		return "Module {} has {} {}".format(self.module.name, self.value, self.module_property.name)
 
 class Ship(models.Model):
 	name = models.CharField(max_length=100)
@@ -26,6 +46,17 @@ class Ship(models.Model):
 	# position
 	x = models.IntegerField()
 	y = models.IntegerField()
+
+	# compute (maximum) hull points
+	@property
+	def hull(self):
+		"""returns (maximum) hull points of the ship"""
+		hull = 0.0
+		for ma in self.moduleassignment_set.all():
+			count = ma.count
+			for prop in ModulePropertyAssignment.objects.filter(module=ma.module).filter(module_property__name__exact='hullpoints'):
+				hull += count * prop.value
+		return int(hull)
 
 	def __str__(self):
 		return "Ship: %s (%s class)" % (self.name, self.shipclass.name)

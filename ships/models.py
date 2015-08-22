@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.functional import cached_property
 
 class ShipClass(models.Model):
 	name = models.CharField(max_length=100)
@@ -48,7 +49,7 @@ class Ship(models.Model):
 	y = models.IntegerField()
 
 	# compute (maximum) hull points
-	@property
+	@cached_property
 	def hull(self):
 		"""returns (maximum) hull points of the ship"""
 		hull = 0.0

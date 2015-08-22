@@ -23,6 +23,9 @@ def get_map(pos=(0,0), radius=5, method='max'):
 	area = OrderedDict()
 	slices = {}
 
+	all_fieldtypes = {}
+	for ft in FieldType.objects.all():
+		all_fieldtypes[ft.pk] = ft
 	for cur_y in range(y-radius, y+radius+1):
 		for cur_x in range(x-radius, x+radius+1):
 			cur_pos = np.array([cur_x,cur_y])
@@ -36,7 +39,7 @@ def get_map(pos=(0,0), radius=5, method='max'):
 
 			# add randomly generated field
 			field = Field()
-			field.fieldtype = FieldType.objects.get(pk=int(slices[tuple(cur_i)][cur_mod_x][cur_mod_y]) + 1)
+			field.fieldtype = all_fieldtypes[int(slices[tuple(cur_i)][cur_mod_x][cur_mod_y]) + 1]
 			field.x, field.y = cur_x, cur_y
 			area[cur_y][cur_x] = field
 

@@ -11,7 +11,10 @@ Colony Field Detail: {{ field.field.name }}
 {% endblock %}
 
 {% block content %}
-	<img src="{% static "colony/img/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }}, {{ field.x }})"/>
+	<img src="{% static "colony/img/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }}, {{ field.x }})" />
+	{% if building %}
+		<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" title="{{ building.building.name }}" />
+	{% endif %}
 	{% if buildings %}
 		<div class="tiling">
 		{% for building in buildings %}

@@ -44,11 +44,13 @@ def fielddetail(request, colony_id, x, y):
 	"""get detail view of field"""
 	colony = get_object_or_404(Colony, pk=colony_id, owner=request.user)
 	field = colony.fieldassignment_set.filter(x=int(x), y=int(y)).first()
+	building = field.buildingassignment_set.first()
 
 	#retrieve building options
 	buildings = field.field.buildingconstruction_set.all()
 
 	return render(request,'colony/fielddetail.html', {
 		'field': field,
+		'building': building,
 		'buildings': buildings,
 	})

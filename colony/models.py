@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Field(models.Model):
 	name = models.CharField(max_length=100)
@@ -52,6 +53,8 @@ class BuildingAssignment(models.Model):
 	"""assigns a building to a field on a colony"""
 	field = models.ForeignKey(FieldAssignment)
 	building = models.ForeignKey(Building)
+	construction_finished = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
-		return "Building %s on field %s" % (self.building.name,self.field.name)
+		return "%sBuilding '%s' on field %s (%d, %d)" % ("Construction until " + str(self.construction_finished) + " " if self.construction_finished > timezone.now() else "", self.building.name, self.field.field.name, self.field.x, self.field.y)
+

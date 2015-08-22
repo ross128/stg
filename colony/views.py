@@ -30,6 +30,9 @@ def colony(request, colony_id):
 
 	for field in colony.fieldassignment_set.all():
 		surface[field.y][field.x]['field'] = field
+		building = field.buildingassignment_set.first()
+		if building:
+			surface[field.y][field.x]['building'] = building
 
 	return render(request,'colony/colony.html', {
 		'colony': colony,

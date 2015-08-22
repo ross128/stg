@@ -12,17 +12,21 @@ Colony Detail:
 
 {% block content %}
 	{% if colony %}
-	<table>
+	<table class="map">
 		{% for row_id,row in surface.items %}
 		<tr>
 		{% for col_id,cell in row.items %}
-			<td>
-				{% if cell.field %}
-				<a href="{% url 'fielddetail' colony.id cell.field.x cell.field.y %}">
-					<img src="{% static "colony/img/fields/" %}{{ cell.field.field.id }}.gif" alt="{{ cell.field.field.name }}" title="{{ cell.field.field.name }} at ({{ cell.field.y }},{{ cell.field.x }})"/>
-				</a>
-				{% endif %}
-			</td>
+			{% if cell.field %}
+				<td style="background-image: url('{% static "colony/img/fields/" %}{{ cell.field.field.id }}.gif');">
+					<a href="{% url 'fielddetail' colony.id cell.field.x cell.field.y %}" alt="{{ cell.field.field.name }}" title="{{ cell.field.field.name }} at ({{ cell.field.y }},{{ cell.field.x }})">
+						{% if cell.building %}
+							<img src="{% static "colony/img/buildings/" %}{{ cell.building.building.id }}.png" />
+						{% endif %}
+					</a>
+				</td>
+			{% else %}
+				<td></td>
+			{% endif %}
 		{% endfor %}
 		</tr>
 	{% endfor %}

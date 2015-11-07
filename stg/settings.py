@@ -9,7 +9,6 @@ SITE_ID = 1
 SECRET_KEY = os.environ['SECRET_KEY']
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -78,6 +77,7 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
 			],
+			'debug': DEBUG,
 		},
 	},
 ]

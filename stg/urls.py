@@ -5,6 +5,10 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 
+admin.site.site_title = 'STG Administration'
+admin.site.site_header = 'STG Administration'
+admin.site.site_url = '/main/'
+
 urlpatterns = patterns('',
 	#login and logout
 	url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
@@ -14,7 +18,7 @@ urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
 
 	#mainscreen
-	url(r'^main/', include('mainscreen.urls')),
+	url(r'^main/', include('mainscreen.urls', namespace='main')),
 
 	#colony
 	url(r'^colony/', include('colony.urls')),

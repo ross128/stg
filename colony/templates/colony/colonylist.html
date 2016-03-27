@@ -8,7 +8,7 @@ Colony List
 {% if colony_list %}
 <ul>
 {% for colony in colony_list %}
-<li><a href="{% url "colony" colony.id %}">{{ colony.name }}</a></li>
+<li><a href="{% url "colony:colony" colony.id %}">{{ colony.name }}</a></li>
 {% endfor %}
 </ul>	
 {% else %}

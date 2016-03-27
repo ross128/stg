@@ -16,14 +16,15 @@ Colony Field Detail: {{ field.field.name }}
 		<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" title="{{ building.building.name }}" />
 	{% endif %}
 	{% if buildings %}
-		<div class="tiling">
-		{% for building in buildings %}
-			<a href="#">
-				<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" />
-				{{ building.building.name }} ({{ building.building.build_time }})
-			</a>
-		{% endfor %}
-		</div>
+		<form method="post" action="{% url "colony:build" field.colony.id field.x field.y %}" accept-charset="utf-8" class="tiling">
+			{% csrf_token %}
+			{% for building in buildings %}
+				<button type="submit" name="build" value="{{ building.building.id }}" />
+					<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" />
+					{{ building.building.name }} ({{ building.building.build_time }})
+				</button>
+			{% endfor %}
+		</form>
 	{% else %}
 		No buildings here!
 	{% endif %}

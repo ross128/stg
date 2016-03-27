@@ -21,7 +21,7 @@ urlpatterns = patterns('',
 	url(r'^main/', include('mainscreen.urls', namespace='main')),
 
 	#colony
-	url(r'^colony/', include('colony.urls')),
+	url(r'^colony/', include('colony.urls', namespace='colony')),
 
 	#ships
 	url(r'^ships/', include('ships.urls', namespace='ships')),

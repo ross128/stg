@@ -26,6 +26,7 @@ INSTALLED_APPS = (
 	'colony',
 	'ships',
 	'map',
+	'goods',
 )
 
 MIDDLEWARE_CLASSES = (

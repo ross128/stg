@@ -84,15 +84,30 @@
 		margin: 0;
 	}
 	table.map > tbody > tr > td {
-		background-repeat: no-repeat;
 		width: 30px;
 		height: 30px;
 		color: #ffffff;
-		text-align: center;
 	}
 	table.map > tbody > tr > td > a {
+		position: relative;
 		width: 100%;
 		height: 100%;
+	}
+	table.map > tbody > tr > td > a > * {
+		position: absolute;
+	}
+	table.map > tbody > tr > td  div.text {
+		color: #ffffff;
+		width: 100%;
+		height: 100%;
+		line-height: 30px;
+		text-align: center;
+	}
+	table.map > tbody > tr > td  div.percentage {
+		right: 0;
+		height: 100%;
+		background-color: #ffffff;
+		opacity: 0.6;
 	}
 </style>
 {% endblock %}

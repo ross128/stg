@@ -66,9 +66,11 @@
 		<th>{{ y }}</th>
 		{% for x,field in row.items %}
 		<td style="background-image: url({% static "map/img/" %}{{ field.fieldtype.id }}.gif);" title="{{ field }}">
-			{% if ships_in_sensor_range|get_y:y|get_x:x|length > 0 %}
-				{{ ships_in_sensor_range|get_y:y|get_x:x|length }}
-			{% endif %}
+			<div class="text">
+				{% if ships_in_sensor_range|get_y:y|get_x:x|length > 0 %}
+					{{ ships_in_sensor_range|get_y:y|get_x:x|length }}
+				{% endif %}
+			</div>
 		</td>
 		{% endfor %}
 	</tr>

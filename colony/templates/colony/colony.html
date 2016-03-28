@@ -1,5 +1,6 @@
 {% extends "game.html" %}
 {% load staticfiles %}
+{% load remaining_percent %}
 
 {% block pagetitle %}
 Colony Detail:
@@ -16,17 +17,20 @@ Colony Detail:
 		{% for row_id,row in surface.items %}
 		<tr>
 		{% for col_id,cell in row.items %}
-			{% if cell.field %}
-				<td style="background-image: url('{% static "colony/img/fields/" %}{{ cell.field.field.id }}.gif');">
-					<a href="{% url 'colony:fielddetail' colony.id cell.field.x cell.field.y %}" alt="{{ cell.field.field.name }}" title="{{ cell.field.field.name }} at ({{ cell.field.y }},{{ cell.field.x }})">
-						{% if cell.building %}
-							<img src="{% static "colony/img/buildings/" %}{{ cell.building.building.id }}.png" />
+		<td alt="{{ cell.field.field.name }}" title="{% if cell.building %}{{ cell.building.building }}{% else %}{{ cell.field.field.name }}{% endif %} at ({{ cell.field.y }},{{ cell.field.x }})">
+				<a href="{% url 'colony:fielddetail' colony.id cell.field.x cell.field.y %}">
+					{% if cell.field %}
+						<img src="{% static "colony/img/fields/" %}{{ cell.field.field.id }}.gif" />
+					{% endif %}
+					{% if cell.building %}
+						<img src="{% static "colony/img/buildings/" %}{{ cell.building.building.id }}.png" />
+						{% if cell.building.under_construction %}
+							<div class="percentage" style="width:{{ cell.building.construction_progress|remaining_percent }}%;">
 						{% endif %}
-					</a>
-				</td>
-			{% else %}
-				<td></td>
-			{% endif %}
+						</div>
+					{% endif %}
+				</a>
+			</td>
 		{% endfor %}
 		</tr>
 	{% endfor %}

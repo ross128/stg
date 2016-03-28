@@ -55,6 +55,16 @@ class BuildingAssignment(models.Model):
 	building = models.ForeignKey(Building)
 	construction_finished = models.DateTimeField(default=timezone.now)
 
+	@property
+	def construction_progress(self):
+		"""returns the construction progress in percent"""
+		return 100.0*min(1, (1 - (self.construction_finished - timezone.now())/self.building.build_time))
+
+	@property
+	def under_construction(self):
+		"""returns True iff building is under construction"""
+		return timezone.now() < self.construction_finished
+
 	def __str__(self):
 		return "%sBuilding '%s' on field %s (%d, %d)" % ("Construction until " + str(self.construction_finished) + " " if self.construction_finished > timezone.now() else "", self.building.name, self.field.field.name, self.field.x, self.field.y)
 

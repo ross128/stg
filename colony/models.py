@@ -1,5 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils import timezone
 from goods.models import Stock
 
@@ -20,6 +22,13 @@ class Colony(models.Model):
 
 	def __str__(self):
 		return self.name
+
+@receiver(pre_save, sender=Colony)
+def add_empty_stock(sender, instance, **kwargs):
+	if not instance.stock_id:
+		stock = Stock.objects.create()
+		stock.save()
+		instance.stock = stock
 
 class FieldAssignment(models.Model):
 	colony = models.ForeignKey(Colony)

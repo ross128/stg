@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from goods.models import Stock
 
 class Field(models.Model):
 	name = models.CharField(max_length=100)
@@ -12,6 +13,7 @@ class Colony(models.Model):
 	name = models.CharField(max_length=200)
 	owner = models.ForeignKey(User)
 	fields = models.ManyToManyField(Field, through='FieldAssignment')
+	stock = models.OneToOneField(Stock)
 
 	class Meta(object):
 		verbose_name_plural = "Colonies"

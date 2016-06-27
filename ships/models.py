@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.functional import cached_property
+from goods.models import Stock
 
 class ShipClass(models.Model):
 	name = models.CharField(max_length=100)
@@ -43,6 +44,7 @@ class Ship(models.Model):
 	owner = models.ForeignKey(User)
 	shipclass = models.ForeignKey(ShipClass)
 	modules = models.ManyToManyField(Module, through='ModuleAssignment')
+	cargo = models.OneToOneField(Stock)
 
 	# position
 	x = models.IntegerField()

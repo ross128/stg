@@ -1,5 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils.functional import cached_property
 from goods.models import Stock
 
@@ -63,6 +65,13 @@ class Ship(models.Model):
 
 	def __str__(self):
 		return "Ship: %s (%s class)" % (self.name, self.shipclass.name)
+
+@receiver(pre_save, sender=Ship)
+def add_empty_stock(sender, instance, **kwargs):
+	if not instance.cargo_id:
+		cargo = Stock.objects.create()
+		cargo.save()
+		instance.cargo = cargo
 
 class ModuleAssignment(models.Model):
 	ship = models.ForeignKey(Ship)

@@ -48,6 +48,7 @@ class Building(models.Model):
 	name = models.CharField(max_length = 200)
 	usable_fields = models.ManyToManyField(Field, through='BuildingConstruction')
 	build_time = models.DurationField()
+	building_cost = models.OneToOneField(Stock)
 
 	def __str__(self):
 		return self.name

@@ -15,7 +15,7 @@ class Stock(models.Model):
 class GoodAssignment(models.Model):
 	good = models.ForeignKey(Good)
 	stock = models.ForeignKey(Stock)
-	count = models.IntegerField()
+	count = models.PositiveIntegerField()
 
 	class Meta:
 		unique_together = ('stock', 'good')

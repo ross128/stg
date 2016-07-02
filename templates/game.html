@@ -109,6 +109,11 @@
 		background-color: #ffffff;
 		opacity: 0.6;
 	}
+	/* remove additional border for firefox in button elements */
+	button::-moz-focus-inner {
+		padding: 0;
+		border: 0
+	}
 </style>
 {% endblock %}
 

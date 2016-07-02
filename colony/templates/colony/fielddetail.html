@@ -19,9 +19,20 @@ Colony Field Detail: {{ field.field.name }}
 		<form method="post" action="{% url "colony:build" field.colony.id field.x field.y %}" accept-charset="utf-8" class="tiling">
 			{% csrf_token %}
 			{% for building in buildings %}
-				<button type="submit" name="build" value="{{ building.building.id }}" />
-					<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" />
-					{{ building.building.name }} ({{ building.building.build_time }})
+				<button type="submit" name="build" value="{{ building.building.id }}" title="">
+					<h1>{{ building.building.name }}</h1>
+					<div class="content">
+						<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" />
+						{{ building.building.name }}
+						<h2>Properties</h2>
+						Time: {{ building.building.build_time }}
+						<h2>Cost</h2>
+						<ul>
+							{% for ga in building.building.building_cost.goodassignment_set.all %}
+							<li><img src="{% static "goods/img/" %}{{ ga.good.id }}.gif" alt="{{ ga.good }}" title="{{ ga.good }}"/> {{ ga.count }}</li>
+							{% endfor %}
+						</ul>
+					</div>
 				</button>
 			{% endfor %}
 		</form>

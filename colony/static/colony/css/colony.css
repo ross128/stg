@@ -1,17 +1,40 @@
 .tiling {
-	clear: both;
+	display: flex;
+	flex-wrap: wrap;
 }
 .tiling > * {
+	position: relative;
 	border: 1px solid #567ebb;
-	display: block;
-	float: left;
-	margin: 0.5em;
-	display: block;
-	padding: 0.2em;
-	height: 5em;
+	margin: 0.3em;
 	width: 17em;
+	padding: 0;
+	text-align: left;
 }
 .tiling > *:hover {
 	background-color: #567ebb;
 	color: #dce0e6;
+}
+.tiling > * > h1 {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 2.5em;
+	font-size: medium;
+	text-align: center;
+	background-color: #567ebb;
+	color: #dce0e6;
+	margin: 0;
+}
+.tiling > * > div.content {
+	margin-top: 3.5em;
+}
+.tiling > * > div.content > h2 {
+	font-size: small;
+	background-color: #567ebb;
+	color: #dce0e6;
+}
+.tiling > * > div.content > ul {
+	list-style: none;
+	margin: 0 0 0 0.5em;
+	padding: 0;
 }

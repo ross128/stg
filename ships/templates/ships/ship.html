@@ -98,4 +98,11 @@
 	</tr>
 </table>
 </form>
+
+<h2>Cargo</h2>
+<ul>
+{% for ga in ship.cargo.goodassignment_set.all %}
+	<li><img src="{% static "goods/img/" %}{{ ga.good.id }}.gif" alt="{{ ga.good }}" title="{{ ga.count }} {{ ga.good }}" /> {{ ga.count }}</li>
+{% endfor %}
+</ul>
 {% endblock %}

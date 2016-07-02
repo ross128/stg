@@ -40,4 +40,11 @@ Colony Detail:
 	{% endfor %}
 	</table>
 	{% endif %}
+
+	<h2>Stock</h2>
+	<ul>
+	{% for ga in colony.stock.goodassignment_set.all %}
+		<li><img src="{% static "goods/img/" %}{{ ga.good.id }}.gif" alt="{{ ga.good }}" title="{{ ga.count }} {{ ga.good }}" /> {{ ga.count }}</li>
+	{% endfor %}
+	</ul>
 {% endblock %}

@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 
 class Good(models.Model):
 	name = models.CharField(max_length=100)
@@ -8,6 +8,36 @@ class Good(models.Model):
 
 class Stock(models.Model):
 	goods = models.ManyToManyField(Good, through='GoodAssignment')
+
+	def __le__(self, other):
+		for ga in self.goodassignment_set.all():
+			other_ga = other.goodassignment_set.filter(good=ga.good)
+			if other_ga.count() < 1:
+				#other stock does not contain this good
+				return False
+
+			if other_ga.first().count < ga.count:
+				#other stock has lower number of goods
+				return False
+		return True
+
+	def __isub__(self, other):
+		"""implements Stock -= Stock"""
+		with transaction.atomic():
+			for ga in other.goodassignment_set.all():
+				self_ga = self.goodassignment_set.filter(good=ga.good)
+				if self_ga.count() < 1:
+					#this stock does not contain this good
+					raise Exception("could not deduct resource from this stock")
+
+				#deduct resource
+				self_ga = self_ga.first()
+				if self_ga.count == ga.count:
+					self_ga.delete()
+				else:
+					self_ga.count -= ga.count
+					self_ga.save()
+		return self
 
 	def __str__(self):
 		return "Stock {0.pk}".format(self)

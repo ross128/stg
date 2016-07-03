@@ -88,14 +88,22 @@ class BuildBuilding(View):
 			#can be build on this field?
 			bc = BuildingConstruction.objects.filter(field=fa.field, building=building)
 			if bc:
-				#build
-				ba = BuildingAssignment()
-				ba.building = building
-				ba.field = fa
-				ba.construction_finished = timezone.now() + building.build_time
-				ba.save()
+				#check if enough ressources are available
+				if building.building_cost <= colony.stock:
+					#deduct building ressources from colony stock
+					colony.stock -= building.building_cost
 
-				messages.info(request, "construction of {0} has been started".format(building))
+					#build
+					ba = BuildingAssignment()
+					ba.building = building
+					ba.field = fa
+					ba.construction_finished = timezone.now() + building.build_time
+					ba.save()
+
+					messages.info(request, "construction of {0} has been started".format(building))
+				else:
+					messages.error(request, "not enough ressources available")
+
 			else:
 				messages.error(request, "building {0} cannot be build on {1}".format(building, fa.field))
 

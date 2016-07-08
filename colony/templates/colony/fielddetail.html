@@ -32,6 +32,12 @@ Colony Field Detail: {{ field.field.name }}
 							<li><img src="{% static "goods/img/" %}{{ ga.good.id }}.gif" alt="{{ ga.good }}" title="{{ ga.good }}"/> {{ ga.count }}</li>
 							{% endfor %}
 						</ul>
+						<h2>Production</h2>
+						<ul>
+							{% for ga in building.building.production.goodassignment_set.all %}
+							<li><img src="{% static "goods/img/" %}{{ ga.good.id }}.gif" alt="{{ ga.good }}" title="{{ ga.good }}"/> {{ ga.count }}</li>
+							{% endfor %}
+						</ul>
 					</div>
 				</button>
 			{% endfor %}

@@ -23,6 +23,20 @@ class Colony(models.Model):
 	def __str__(self):
 		return self.name
 
+	def tick(self):
+		"""compute the tick for the colony"""
+		for fa in self.fieldassignment_set.all():
+			for ba in fa.buildingassignment_set.all():
+				#skip not finished buildings
+				if ba.under_construction:
+					continue
+
+				for ga in ba.building.production.goodassignment_set.all():
+					try:
+						self.stock += ba.building.production
+					except Exception as e:
+						pass
+
 @receiver(pre_save, sender=Colony)
 def add_empty_stock(sender, instance, **kwargs):
 	if not instance.stock_id:

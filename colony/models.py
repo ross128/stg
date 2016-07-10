@@ -31,11 +31,10 @@ class Colony(models.Model):
 				if ba.under_construction:
 					continue
 
-				for ga in ba.building.production.goodassignment_set.all():
-					try:
-						self.stock += ba.building.production
-					except Exception as e:
-						pass
+				try:
+					self.stock += ba.building.production
+				except Exception as e:
+					pass
 
 @receiver(pre_save, sender=Colony)
 def add_empty_stock(sender, instance, **kwargs):

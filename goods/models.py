@@ -21,8 +21,10 @@ class Stock(models.Model):
 				return False
 		return True
 
-	def __isub__(self, other):
-		"""implements Stock -= Stock"""
+	def add_delta(self, other, negative=False):
+		"""adds or subtracts (iff negative==True) a stock to another stock"""
+		sign = -1 if negative else 1
+
 		with transaction.atomic():
 			for ga in other.goodassignment_set.all():
 				self_ga = self.goodassignment_set.filter(good=ga.good)
@@ -30,9 +32,9 @@ class Stock(models.Model):
 				if self_ga.count() < 1:
 					#this stock does not contain this good
 
-					if ga.count > 0:
+					if sign*ga.count < 0:
 						#this would create a negative count
-						raise Exception("could not deduct resource from this stock")
+						raise Exception("could not add resource to this stock")
 
 					#add new ressource
 					if ga.count == 0:
@@ -40,60 +42,31 @@ class Stock(models.Model):
 						continue
 
 					#create new goodassignment for this stock
-					self.goodassignment_set.create(good=ga.good, count=-ga.count)
+					self.goodassignment_set.create(good=ga.good, count=sign*ga.count)
 
 				else:
 					#good is already in this stock
 
 					self_ga = self_ga.first()
-					if self_ga.count - ga.count < 0:
-						#this stock does not contain enough of this ressource
-						raise Exception("could not deduct resource from this stock")
+					if self_ga.count + sign*ga.count < 0:
+						#this would create a negative count
+						raise Exception("could not add resource to this stock")
 
-					#deduct resource
-					if self_ga.count == ga.count:
+					#add resource
+					if self_ga.count + sign*ga.count == 0:
 						self_ga.delete()
 					else:
-						self_ga.count -= ga.count
+						self_ga.count += sign*ga.count
 						self_ga.save()
 		return self
+
+	def __isub__(self, other):
+		"""implements Stock -= Stock"""
+		return self.add_delta(other, negative=True)
 
 	def __iadd__(self, other):
 		"""implements Stock += Stock"""
-		with transaction.atomic():
-			for ga in other.goodassignment_set.all():
-				self_ga = self.goodassignment_set.filter(good=ga.good)
-
-				if self_ga.count() < 1:
-					#this stock does not contain this good
-
-					if ga.count < 0:
-						#this would create a negative count
-						raise Exception("could not add new negative resource from this stock")
-
-					#add new ressource
-					if ga.count == 0:
-						#nothing to do
-						continue
-
-					#create new goodassignment for this stock
-					self.goodassignment_set.create(good=ga.good, count=ga.count)
-
-				else:
-					#good is already in this stock
-
-					self_ga = self_ga.first()
-					if self_ga.count + ga.count < 0:
-						#this stock does not contain enough of this ressource
-						raise Exception("could not add negative resource to this stock")
-
-					#deduct resource
-					if self_ga.count == ga.count:
-						self_ga.delete()
-					else:
-						self_ga.count += ga.count
-						self_ga.save()
-		return self
+		return self.add_delta(other)
 
 	def __str__(self):
 		return "Stock {0.pk}".format(self)

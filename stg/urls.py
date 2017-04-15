@@ -1,18 +1,19 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 admin.site.site_title = 'STG Administration'
 admin.site.site_header = 'STG Administration'
 admin.site.site_url = '/main/'
 
-urlpatterns = patterns('',
+urlpatterns = [
 	#login and logout
-	url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
-	url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'},  name='logout'),
+	url(r'^login/$', auth_views.LoginView.as_view(), name='login'),
+	url(r'^logout/$', auth_views.LogoutView.as_view(), {'next_page': '/'},  name='logout'),
 
 	# admin interface
 	url(r'^admin/', include(admin.site.urls)),
@@ -27,8 +28,8 @@ urlpatterns = patterns('',
 	url(r'^ships/', include('ships.urls', namespace='ships')),
 
 	#index page
-	url(r'^$', include('index.urls')),
-)
+	url(r'^', include('index.urls')),
+]
 
 # serve static files
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

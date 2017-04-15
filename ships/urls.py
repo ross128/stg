@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from ships import views
 
-urlpatterns = patterns('ships.views',
+urlpatterns = [
 
 	# ship movement
 	url(r'^(?P<ship_id>\d+)/move/$', views.move, name='move'),
@@ -11,5 +11,5 @@ urlpatterns = patterns('ships.views',
 
 	# list
 	url(r'^$', views.shiplist, name='list'),
-)
+]
 

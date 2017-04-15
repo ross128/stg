@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from colony import views
 
-urlpatterns = patterns('colony.views',
+urlpatterns = [
 
 	#build building
 	url(r'^(?P<colony_id>\d+)/field/(?P<x>\d+)/(?P<y>\d+)/build/$', views.BuildBuilding.as_view(), name='build'),
@@ -14,4 +14,4 @@ urlpatterns = patterns('colony.views',
 
 	#list
 	url(r'^$', views.colonylist, name='list'),
-)
+]

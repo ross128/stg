@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import timedelta.fields
 import django.utils.timezone
 from django.conf import settings
 
@@ -21,7 +20,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
-                ('build_time', timedelta.fields.TimedeltaField()),
+                ('build_time', models.DurationField()),
             ],
         ),
         migrations.CreateModel(
@@ -96,11 +95,6 @@ class Migration(migrations.Migration):
             model_name='building',
             name='usable_fields',
             field=models.ManyToManyField(through='colony.BuildingConstruction', to='colony.Field'),
-        ),
-        migrations.AlterField(
-            model_name='building',
-            name='build_time',
-            field=models.DurationField(),
         ),
         migrations.AddField(
             model_name='buildingassignment',

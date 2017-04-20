@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404
@@ -44,12 +45,8 @@ def colony(request, colony_id):
 		'surface': surface,
 	})
 
-class FieldDetail(View):
+class FieldDetail(LoginRequiredMixin, View):
 	"""get detail view of field"""
-
-	@method_decorator(login_required)
-	def dispatch(self, *args, **kwargs):
-		return super().dispatch(*args, **kwargs)
 
 	def get(self, request, colony_id, x, y):
 		colony = get_object_or_404(Colony, pk=colony_id, owner=request.user)
@@ -65,12 +62,8 @@ class FieldDetail(View):
 			'buildings': buildings,
 		})
 
-class BuildBuilding(View):
+class BuildBuilding(LoginRequiredMixin, View):
 	"""build building"""
-
-	@method_decorator(login_required)
-	def dispatch(self, *args, **kwargs):
-		return super().dispatch(*args, **kwargs)
 
 	def post(self, request, colony_id, x, y):
 		colony = get_object_or_404(Colony, pk=colony_id, owner=request.user)

@@ -14,7 +14,7 @@ class ColonyAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 	fieldsets = [
 		('Colony', {
-			'fields': ['name', 'owner', 'stock'],
+			'fields': ['name', 'owner', 'stock', 'energy'],
 		}),
 	]
 

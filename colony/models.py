@@ -16,6 +16,7 @@ class Colony(models.Model):
 	owner = models.ForeignKey(User)
 	fields = models.ManyToManyField(Field, through='FieldAssignment')
 	stock = models.OneToOneField(Stock)
+	energy = models.PositiveSmallIntegerField(default=0)
 
 	class Meta(object):
 		verbose_name_plural = "Colonies"
@@ -62,6 +63,7 @@ class Building(models.Model):
 	usable_fields = models.ManyToManyField(Field, through='BuildingConstruction')
 	build_time = models.DurationField()
 	building_cost = models.OneToOneField(Stock, related_name='building_cost')
+	building_energy_cost = models.PositiveSmallIntegerField(default=0)
 	production = models.OneToOneField(Stock, related_name='building_production')
 
 	def __str__(self):

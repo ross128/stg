@@ -41,6 +41,11 @@ Colony Detail:
 	</table>
 	{% endif %}
 
+	<h2>Energie</h2>
+	<ul>
+		<li>{{ colony.energy }} energy</li>
+	</ul>
+
 	<h2>Stock</h2>
 	<ul>
 	{% for ga in colony.stock.goodassignment_set.all %}

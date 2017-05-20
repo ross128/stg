@@ -33,9 +33,15 @@ class Colony(models.Model):
 					continue
 
 				try:
+					if self.energy + ba.building.production_energy < 0:
+						#energy requirements not met
+						continue
+					self.energy += ba.building.production_energy
+
 					self.stock += ba.building.production
 				except Exception as e:
 					pass
+		self.save()
 
 @receiver(pre_save, sender=Colony)
 def add_empty_stock(sender, instance, **kwargs):
@@ -65,6 +71,7 @@ class Building(models.Model):
 	building_cost = models.OneToOneField(Stock, related_name='building_cost')
 	building_energy_cost = models.PositiveSmallIntegerField(default=0)
 	production = models.OneToOneField(Stock, related_name='building_production')
+	production_energy = models.SmallIntegerField(default=0)
 
 	def __str__(self):
 		return self.name

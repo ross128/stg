@@ -26,20 +26,28 @@ class Colony(models.Model):
 	def __str__(self):
 		return self.name
 
-	# compute total number of living quarters
-	@cached_property
-	def living_quarters(self):
-		"""returns number of living quarters on the colony"""
-		total_living_quarters = 0
+	def collect_building_properties(self, property_name):
+		"""collect sum of all building properties on the surface"""
+		result = 0
 
 		for fa in self.fieldassignment_set.all():
 			ba = fa.buildingassignment_set.first()
 			if ba is not None and ba.is_active:
 				#there is an active building on this field
-				for property_assignment in ba.building.buildingpropertyassignment_set.filter(building_property__name__exact='living_quarters'):
-					total_living_quarters += property_assignment.value
+				for property_assignment in ba.building.buildingpropertyassignment_set.filter(building_property__name__exact=property_name):
+					result += property_assignment.value
 
-		return int(total_living_quarters)
+		return result
+
+	@cached_property
+	def living_quarters(self):
+		"""returns number of living quarters on the colony"""
+		return int(self.collect_building_properties('living_quarters'))
+
+	@cached_property
+	def max_energy(self):
+		"""returns energy capacity of colony"""
+		return int(self.collect_building_properties('eps'))
 
 	def tick(self):
 		"""compute the tick for the colony"""

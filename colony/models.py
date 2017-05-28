@@ -63,18 +63,43 @@ class FieldAssignment(models.Model):
 	def __str__(self):
 		return "%s has %s at (%d,%d)" % (self.colony.name,self.field.name,self.x,self.y)
 
+class BuildingProperty(models.Model):
+	"""defines properties of specific buildings"""
+	name = models.CharField(max_length=100)
+
+	class Meta(object):
+		verbose_name_plural = "Building Properties"
+
+	def __str__(self):
+		return self.name
+
 class Building(models.Model):
 	"""building"""
 	name = models.CharField(max_length = 200)
 	usable_fields = models.ManyToManyField(Field, through='BuildingConstruction')
+
 	build_time = models.DurationField()
 	building_cost = models.OneToOneField(Stock, related_name='building_cost')
 	building_energy_cost = models.PositiveSmallIntegerField(default=0)
+
 	production = models.OneToOneField(Stock, related_name='building_production')
 	production_energy = models.SmallIntegerField(default=0)
 
+	building_properties = models.ManyToManyField(BuildingProperty, through='BuildingPropertyAssignment')
+
 	def __str__(self):
 		return self.name
+
+class BuildingPropertyAssignment(models.Model):
+	building = models.ForeignKey(Building)
+	building_property = models.ForeignKey(BuildingProperty)
+	value = models.FloatField()
+
+	class Meta:
+		unique_together = (('building', 'building_property'),)
+
+	def __str__(self):
+		return "Building {} has {} {}".format(self.building.name, self.value, self.building_property.name)
 
 class BuildingConstruction(models.Model):
 	"""describes which building can be built on which field"""
@@ -89,6 +114,13 @@ class BuildingAssignment(models.Model):
 	field = models.ForeignKey(FieldAssignment)
 	building = models.ForeignKey(Building)
 	construction_finished = models.DateTimeField(default=timezone.now)
+
+	active = models.BooleanField(default=True)
+
+	@property
+	def is_active(self):
+		"""returns True iff building is activated and construction is finished"""
+		return self.active and not self.under_construction
 
 	@property
 	def construction_progress(self):

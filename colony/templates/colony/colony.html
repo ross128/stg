@@ -41,9 +41,10 @@ Colony Detail:
 	</table>
 	{% endif %}
 
-	<h2>Energie</h2>
+	<h2>General</h2>
 	<ul>
 		<li><img src="{% static "colony/img/" %}energy.gif" alt="Energy" title="Energy"/> {{ colony.energy }}</li>
+		<li><img src="{% static "colony/img/" %}residents.gif" alt="Residents" title="Residents"/> {{ colony.residents }}/{{ colony.living_quarters }}</li>
 	</ul>
 
 	<h2>Stock</h2>

@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils import timezone
+from django.utils.functional import cached_property
 from goods.models import Stock
 
 class Field(models.Model):
@@ -17,12 +18,28 @@ class Colony(models.Model):
 	fields = models.ManyToManyField(Field, through='FieldAssignment')
 	stock = models.OneToOneField(Stock)
 	energy = models.PositiveSmallIntegerField(default=0)
+	residents = models.PositiveSmallIntegerField(default=0)
 
 	class Meta(object):
 		verbose_name_plural = "Colonies"
 
 	def __str__(self):
 		return self.name
+
+	# compute total number of living quarters
+	@cached_property
+	def living_quarters(self):
+		"""returns number of living quarters on the colony"""
+		total_living_quarters = 0
+
+		for fa in self.fieldassignment_set.all():
+			ba = fa.buildingassignment_set.first()
+			if ba is not None and ba.is_active:
+				#there is an active building on this field
+				for property_assignment in ba.building.buildingpropertyassignment_set.filter(building_property__name__exact='living_quarters'):
+					total_living_quarters += property_assignment.value
+
+		return int(total_living_quarters)
 
 	def tick(self):
 		"""compute the tick for the colony"""

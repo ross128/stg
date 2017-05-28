@@ -43,6 +43,12 @@ class Colony(models.Model):
 
 	def tick(self):
 		"""compute the tick for the colony"""
+		#add residents to colony
+		remaining = self.living_quarters - self.residents
+		if remaining > 0:
+			immigration = max(1, int(remaining/2))
+			self.residents += immigration
+
 		for fa in self.fieldassignment_set.all():
 			for ba in fa.buildingassignment_set.all():
 				#skip not finished buildings

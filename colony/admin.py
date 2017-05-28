@@ -6,6 +6,14 @@ class FieldAssignmentInlineAdmin(admin.TabularInline):
 	fields = ('field', 'x', 'y')
 	extra = 1
 
+class BuildingPropertyAssignmentInlineAdmin(admin.TabularInline):
+	model = BuildingPropertyAssignment
+	extra = 1
+
+class BuildingAdmin(admin.ModelAdmin):
+	model = Building
+	inlines = (BuildingPropertyAssignmentInlineAdmin,)
+
 class ColonyAdmin(admin.ModelAdmin):
 	inlines = (FieldAssignmentInlineAdmin,)
 	list_display = ('name', 'owner')
@@ -21,7 +29,7 @@ class ColonyAdmin(admin.ModelAdmin):
 admin.site.register(Colony, ColonyAdmin)
 admin.site.register(Field)
 admin.site.register(FieldAssignment)
-admin.site.register(Building)
+admin.site.register(Building, BuildingAdmin)
 admin.site.register(BuildingAssignment)
 admin.site.register(BuildingConstruction)
 admin.site.register(BuildingProperty)

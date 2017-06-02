@@ -56,6 +56,9 @@ class Colony(models.Model):
 		if remaining > 0:
 			immigration = max(1, int(remaining/2))
 			self.residents += immigration
+		elif remaining < 0:
+			#emigration
+			self.residents = self.living_quarters
 
 		for fa in self.fieldassignment_set.all():
 			for ba in fa.buildingassignment_set.all():
@@ -76,6 +79,8 @@ class Colony(models.Model):
 					ba.active = False
 					ba.save()
 					pass
+		#cap energy production
+		self.energy = min(self.max_energy, self.energy)
 		self.save()
 
 @receiver(pre_save, sender=Colony)

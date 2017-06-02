@@ -36,7 +36,7 @@ Colony Field Detail: {{ field.field.name }}
 						</ul>
 						<h2>Production</h2>
 						<ul>
-							{% if building.building.production_energy > 0 %}
+							{% if building.building.production_energy != 0 %}
 							<li><img src="{% static "colony/img/" %}energy.gif" alt="Energy" title="Energy"/> {{ building.building.production_energy }}</li>
 							{% endif %}
 							{% for ga in building.building.production.goodassignment_set.all %}

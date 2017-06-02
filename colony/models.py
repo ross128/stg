@@ -60,17 +60,21 @@ class Colony(models.Model):
 		for fa in self.fieldassignment_set.all():
 			for ba in fa.buildingassignment_set.all():
 				#skip not finished buildings
-				if ba.under_construction:
+				if not ba.is_active:
 					continue
 
 				try:
 					if self.energy + ba.building.production_energy < 0:
 						#energy requirements not met
+						ba.active = False
+						ba.save()
 						continue
 					self.energy += ba.building.production_energy
 
 					self.stock += ba.building.production
 				except Exception as e:
+					ba.active = False
+					ba.save()
 					pass
 		self.save()
 

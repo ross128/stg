@@ -27,8 +27,12 @@ Colony Detail:
 								<img src="{% static "colony/img/buildings/" %}{{ cell.building.building.id }}.png" />
 								{% if cell.building.under_construction %}
 									<div class="percentage" style="width:{{ cell.building.construction_progress|remaining_percent }}%;">
+									</div>
 								{% endif %}
-								</div>
+								{% if not cell.building.is_active %}
+									<div class="inactive">
+									</div>
+								{% endif %}
 							{% endif %}
 						</a>
 					</td>

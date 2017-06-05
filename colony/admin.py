@@ -10,9 +10,13 @@ class BuildingPropertyAssignmentInlineAdmin(admin.TabularInline):
 	model = BuildingPropertyAssignment
 	extra = 1
 
+class BuildingConstructionsInlineAdmin(admin.TabularInline):
+	model = BuildingConstruction
+	extra = 1
+
 class BuildingAdmin(admin.ModelAdmin):
 	model = Building
-	inlines = (BuildingPropertyAssignmentInlineAdmin,)
+	inlines = (BuildingConstructionsInlineAdmin, BuildingPropertyAssignmentInlineAdmin,)
 
 class ColonyAdmin(admin.ModelAdmin):
 	inlines = (FieldAssignmentInlineAdmin,)

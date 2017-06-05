@@ -21,6 +21,21 @@ class Stock(models.Model):
 				return False
 		return True
 
+	def can_produce(self, colony_stock):
+		"""checks whether production stock can be applied at tick for colony_stock"""
+		for ga in self.goodassignment_set.all():
+			if ga.count < 0:
+				other_ga = colony_stock.goodassignment_set.filter(good=ga.good)
+
+				if other_ga.count() < 1:
+					#other stock does not contain this good
+					return False
+
+				if other_ga.first().count + ga.count < 0:
+					#colony has not enough of this resource
+					return False
+		return True
+
 	def add_delta(self, other, negative=False):
 		"""adds or subtracts (iff negative==True) a stock to another stock"""
 		sign = -1 if negative else 1

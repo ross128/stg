@@ -49,6 +49,11 @@ class Colony(models.Model):
 		"""returns energy capacity of colony"""
 		return int(self.collect_building_properties('eps'))
 
+	@cached_property
+	def workers(self):
+		"""returns number of required workers of colony"""
+		return int(self.collect_building_properties('workers'))
+
 	def tick(self):
 		"""compute the tick for the colony"""
 		#add residents to colony
@@ -60,25 +65,44 @@ class Colony(models.Model):
 			#emigration
 			self.residents = self.living_quarters
 
+		#loop through all buildings
+		remaining_workers = self.residents
 		for fa in self.fieldassignment_set.all():
-			for ba in fa.buildingassignment_set.all():
-				#skip not finished buildings
-				if not ba.is_active:
-					continue
+			ba = fa.buildingassignment_set.first()
 
-				try:
-					if self.energy + ba.building.production_energy < 0:
-						#energy requirements not met
-						ba.active = False
-						ba.save()
-						continue
-					self.energy += ba.building.production_energy
+			if ba is None:
+				#no building on this field
+				continue
 
-					self.stock += ba.building.production
-				except Exception as e:
-					ba.active = False
-					ba.save()
-					pass
+			if not ba.is_active:
+				#building is deactivated or not built yet
+				continue
+
+			if self.energy + ba.building.production_energy < 0:
+				#energy requirements not met: deactivate building
+				ba.active = False
+				ba.save()
+				continue
+
+			if not ba.building.production.can_produce(self.stock):
+				#not enough resources available for this building
+				ba.active = False
+				ba.save()
+				continue
+
+			workers_qry = ba.building.buildingpropertyassignment_set.filter(building_property__name__exact='workers').first()
+			workers = workers_qry.value if workers_qry else 0
+			if remaining_workers - workers < 0:
+				#not enough free workers available
+				ba.active = False
+				ba.save()
+				continue
+
+			#execute building production
+			remaining_workers -= workers
+			self.stock += ba.building.production
+			self.energy += ba.building.production_energy
+
 		#cap energy production
 		self.energy = min(self.max_energy, self.energy)
 		self.save()

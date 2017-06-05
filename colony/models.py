@@ -4,7 +4,8 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
-from goods.models import Stock
+from goods.models import Good, Stock
+from math import ceil
 
 class Field(models.Model):
 	name = models.CharField(max_length=100)
@@ -105,6 +106,19 @@ class Colony(models.Model):
 
 		#cap energy production
 		self.energy = min(self.max_energy, self.energy)
+
+		#subtract food for colonists
+		required_food = ceil(self.residents/5)
+		food = Good.objects.get(pk=1)
+		food_ga = self.stock.goodassignment_set.filter(good=food).first()
+		available_food = food_ga.count if food_ga else 0
+		if available_food - required_food < 0:
+			#residents will emigrate because of missing food
+			self.residents = available_food*5
+		if food_ga:
+			food_ga.count = max(food_ga.count - required_food, 0)
+			food_ga.save()
+
 		self.save()
 
 @receiver(pre_save, sender=Colony)

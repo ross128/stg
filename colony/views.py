@@ -62,6 +62,21 @@ class FieldDetail(LoginRequiredMixin, View):
 			'buildings': buildings,
 		})
 
+class SwitchBuilding(LoginRequiredMixin, View):
+	"""activate or deactivate building"""
+	def post(self, request, colony_id, x, y):
+		colony = get_object_or_404(Colony, pk=colony_id, owner=request.user)
+		fa = colony.fieldassignment_set.filter(x=int(x), y=int(y)).first()
+		ba = fa.buildingassignment_set.first()
+
+		if ba:
+			ba.active = not ba.active
+			ba.save()
+
+			messages.info(request, "building {0} has been {1}".format(ba.building, "activated" if ba.active else "deactivated"))
+
+		return HttpResponseRedirect(reverse('colony:colony', args=(colony_id,)))
+
 class BuildBuilding(LoginRequiredMixin, View):
 	"""build building"""
 

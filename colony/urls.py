@@ -3,6 +3,9 @@ from colony import views
 
 urlpatterns = [
 
+	#switch building
+	url(r'^(?P<colony_id>\d+)/field/(?P<x>\d+)/(?P<y>\d+)/switch/$', views.SwitchBuilding.as_view(), name='switch'),
+
 	#build building
 	url(r'^(?P<colony_id>\d+)/field/(?P<x>\d+)/(?P<y>\d+)/build/$', views.BuildBuilding.as_view(), name='build'),
 

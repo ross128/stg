@@ -14,7 +14,14 @@ Colony Field Detail: {{ field.field.name }}
 	<img src="{% static "colony/img/fields/" %}{{ field.field.id }}.gif" alt="{{ field.field.name }}" title="{{ field.field.name }} at ({{ field.y }}, {{ field.x }})" />
 	{% if building %}
 		<img src="{% static "colony/img/buildings/" %}{{ building.building.id }}.png" alt="{{ building.building.name }}" title="{{ building.building.name }}" />
-		Active: {{ building.active }}
+		<form method="post" action="{% url "colony:switch" field.colony.id field.x field.y %}">
+			{% csrf_token %}
+			{% if building.is_active %}
+				<button type="submit" name="switch" value="switch" title="deactivate building">Building is active, deactivate building</button>
+			{% else %}
+				<button type="submit" name="switch" value="switch" title="activate building">Building is inactive, activate building</button>
+			{% endif %}
+		</form>
 	{% endif %}
 	{% if buildings %}
 		<form method="post" action="{% url "colony:build" field.colony.id field.x field.y %}" accept-charset="utf-8" class="tiling">
